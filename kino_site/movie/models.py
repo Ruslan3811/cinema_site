@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import  date
+from django.urls import reverse
 
 # Create your models here.
 class Category(models.Model):
@@ -60,9 +61,19 @@ class Movie(models.Model):
     fees_in_world = models.PositiveIntegerField("Сборы в Мире", default=0, help_text="Указывать сумму в долларах")
     url = models.SlugField(max_length=160, unique=True)
     category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.SET_NULL, null=True)
+    draft = models.BooleanField("Черновик", default = False)
 
     def __str__(self):
-        return self.name
+        return self.title
+
+    def get_review(self):
+        for review in self.reviews_set.all():
+            for rev in review.reviews_set.all():
+                print("rev: ", rev)
+        return self.reviews_set.filter(parent__isnull=True)
+
+    def get_absolute_url(self):
+        return reverse('movie-detail', kwargs={"slug": self.url})
 
     class Meta:
         verbose_name = "Фильм"
