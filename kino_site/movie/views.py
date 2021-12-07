@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, View
-from .models import Movie, Reviews
+from .models import Movie, Reviews, Category
 from .forms import ReviewForm
 from django.shortcuts import redirect
+import inspect
 
 # Create your views here.
 
@@ -11,6 +12,7 @@ class MoviesView(ListView):
     model = Movie
     queryset = Movie.objects.filter(draft = False)
     template_name = "templates/movie/movie_list.html"
+
 
 class MovieDetailView(DetailView):
     model = Movie
