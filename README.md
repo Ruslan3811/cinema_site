@@ -12,3 +12,5 @@ It allows administrators to edit Movie Page for user's interface.
 Simple tag allows to call function, that returns objects.
 Inclusion tag allows to call function, thar returns objects to template in queryset.
 
+# Year and genre filtering of films
+Instead tags, I used classes for filtering and returnin objects. For filtering I made Queries using class Q.
