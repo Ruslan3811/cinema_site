@@ -69,9 +69,6 @@ class Movie(models.Model):
         return self.title
 
     def get_review(self):
-        for review in self.reviews_set.all():
-            for rev in review.reviews_set.all():
-                print("rev: ", rev)
         return self.reviews_set.filter(parent__isnull=True)
 
     def get_absolute_url(self):
@@ -98,11 +95,12 @@ class RatingStar(models.Model):
     value = models.SmallIntegerField("Значение", default = 0)
     
     def __str__(self):
-        self.value
+        return f'{self.value}'
 
     class Meta:
         verbose_name = "Звезда рейтинга"
         verbose_name_plural = "Звезды рейтинга"
+        ordering = ["-value"]
 
 class Rating(models.Model):
     ip = models.CharField("Ip адрес", max_length = 15)
