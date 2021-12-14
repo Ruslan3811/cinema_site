@@ -9,8 +9,32 @@ from django.http import JsonResponse
 import json
 from django.http import HttpResponse
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 # Create your views here.
+
+class Pages:
+    """Страницы"""
+    def get_pages(self, context):
+        p = Paginator(self.queryset, self.paginate_by)
+        middle = []
+        left_dot, right_dot = True, True
+        if (context["page_obj"].has_previous()):
+            middle.append(context["page_obj"].previous_page_number())
+        if (p.num_pages > 0):
+            middle.append(context["page_obj"].number)
+        if (context["page_obj"].has_next()):
+            middle.append(context["page_obj"].next_page_number())
+        left = [x for x in range(1,3) if x not in middle]
+        right = [x for x in range(p.num_pages - 1, p.num_pages + 1) if x not in middle]
+        if (len(left) == 0 or (len(left) > 0 and left[-1] == middle[0] - 1)):
+            left_dot = False
+        if (len(right) == 0 or (len(right) > 0 and right[0] == middle[-1] + 1)):
+            right_dot = False
+        page_dict = {"left": left, "middle": middle, "right": right, "right_dot": right_dot, "left_dot": left_dot}
+        context.update(page_dict)
+        return context
+
 
 class GenreYear:
     """Жанры и года"""
@@ -25,21 +49,36 @@ class ActorView(GenreYear, DetailView):
     template_name = "templates/movie/actor.html"
     slug_field = 'name'
 
-class FilterMoviesView(GenreYear, ListView):
-    """Фильтр фильмов"""
-    template_name = "templates/movie/movie_list.html"
-
-    def get_queryset(self):
-        #Будем фильтровать фильмы там, где года будут входить в список, который нам будет возвращаться
-        queryset = Movie.objects.filter(Q(year__in = self.request.GET.getlist("year")) |
-                                        Q(genres__in = self.request.GET.getlist("genre")))
-        return queryset
-
 class MoviesView(GenreYear, ListView):
     # При http get-запросе вызывается данный метод
     model = Movie
     queryset = Movie.objects.filter(draft = False)
+    paginate_by = 1
     template_name = "templates/movie/movie_list.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context = Pages.get_pages(self, context)
+        return context
+
+class FilterMoviesView(GenreYear, ListView):
+    """Фильтр фильмов"""
+    template_name = "templates/movie/movie_list.html"
+    paginate_by = 1
+
+    def get_queryset(self):
+        #Будем фильтровать фильмы там, где года будут входить в список, который нам будет возвращаться
+        queryset = Movie.objects.filter(Q(year__in = self.request.GET.getlist("year")) |
+                                        Q(genres__in = self.request.GET.getlist("genre"))).distinct()
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["year"] = ''.join([f"year={x}&" for x in self.request.GET.getlist("year")])
+        context["genre"] = ''.join([f"genre={x}&" for x in self.request.GET.getlist("genre")])
+        self.queryset = self.get_queryset()
+        context = Pages.get_pages(self, context)
+        return context
 
 
 class MovieDetailView(GenreYear, DetailView):
@@ -52,7 +91,6 @@ class MovieDetailView(GenreYear, DetailView):
         #RatingForm() - закладываем значения формы в контекст
         # Для передачи в шаблон данных. Форма должна показываться на странице!
         context["star_form"] = RatingForm()
-        # print(context["star_form"])
         return context
 
 

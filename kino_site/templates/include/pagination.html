@@ -1,0 +1,31 @@
+{% if is_paginated %}
+<div class=" pagination">
+    <span class="page-links">
+        {% for left_page in left %}
+            <a href="?{{ genre }}{{ year }}page={{ left_page.number }}">{{ left_page }}</a>
+        {% endfor %}
+        <span class="page-current">
+            {% if left_dot %}
+            ...
+            {% endif %}
+        </span>
+        {% if page_obj.has_previous %}
+            <a href="?{{ genre }}{{ year }}page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+        <span class="page-current">
+            <strong>{{ page_obj.number }}</strong>
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?{{ genre }}{{ year }}page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% endif %}
+        <span class="page-current">
+            {% if right_dot %}
+            ...
+            {% endif %}
+        </span>
+        {% for right_page in right %}
+            <a href="?{{ genre }}{{ year }}page={{ right_page }}">{{ right_page }}</a>
+        {% endfor %}
+    </span>
+</div>
+{% endif %}
