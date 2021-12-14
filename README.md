@@ -14,3 +14,6 @@ Inclusion tag allows to call function, thar returns objects to template in query
 
 # Year and genre filtering of films
 Instead tags, I used classes for filtering and returnin objects. For filtering I made Queries using class Q.
+
+# User's values to films
+Now every user can rate the film and change his choice. Every user can do it for every film.
