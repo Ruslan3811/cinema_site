@@ -20,3 +20,6 @@ Now every user can rate the film and change his choice. Every user can do it for
 
 # Added pagination for main page
 It works if user looks page with full list of films or uses filter
+
+# Added searching movies with search bar
+Users can find a movie by title
