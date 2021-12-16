@@ -127,3 +127,19 @@ class AddStarRating(View):
             return redirect(movie_obj.get_absolute_url())
         else:
             return HttpResponse(status=400)
+
+class Search(ListView):
+    model = Movie
+    paginate_by = 1
+    template_name = "templates/movie/movie_list.html"
+
+    def get_queryset(self):
+    #icontains - для фильтрации без учета регистра
+        return Movie.objects.filter(title__icontains=self.request.GET.get("q"))
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        self.queryset = self.get_queryset()
+        context["title"] = f'q={self.request.GET.get("q")}&'
+        context = Pages.get_pages(self, context)
+        return context
