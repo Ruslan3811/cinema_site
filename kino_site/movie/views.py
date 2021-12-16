@@ -86,17 +86,19 @@ class MovieDetailView(GenreYear, DetailView):
     slug_field = 'url'
     template_name = "templates/movie/movie_detail.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         #RatingForm() - закладываем значения формы в контекст
         # Для передачи в шаблон данных. Форма должна показываться на странице!
         context["star_form"] = RatingForm()
+        context["form"] = ReviewForm()
         return context
 
 
 class AddReviewView(View):
     def post(self, request, pk):
         form = ReviewForm(request.POST)
+        print("REVIEW_FORM CAME: ", form, "|\n\n\n")
         movie = Movie.objects.get(id = pk)
         if form.is_valid():
             form = form.save(commit=False)
