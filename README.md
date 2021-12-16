@@ -17,3 +17,6 @@ Instead tags, I used classes for filtering and returnin objects. For filtering I
 
 # User's values to films
 Now every user can rate the film and change his choice. Every user can do it for every film.
+
+# Added pagination for main page
+It works if user looks page with full list of films or uses filter
