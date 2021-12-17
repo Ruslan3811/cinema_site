@@ -26,3 +26,6 @@ Users can find a movie by title
 
 # Added ReCaptcha in Reviews
 It protects against spam
+
+# Added page /about/ using flatpage
+Flatpages allows to create static pages, save info in database and manage it using admin panel
