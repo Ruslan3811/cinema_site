@@ -22,9 +22,18 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('pages/', include('django.contrib.flatpages.urls')),
     path('', include("movie.urls")),
 
 ]
+
+# from django.urls import re_path
+# from django.contrib.flatpages import views
+#
+# # Your other patterns here
+# urlpatterns += [
+#     re_path(r'^(?P<url>.*/)$', views.flatpage),
+# ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

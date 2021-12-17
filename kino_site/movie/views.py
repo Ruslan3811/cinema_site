@@ -98,7 +98,6 @@ class MovieDetailView(GenreYear, DetailView):
 class AddReviewView(View):
     def post(self, request, pk):
         form = ReviewForm(request.POST)
-        print("REVIEW_FORM CAME: ", form, "|\n\n\n")
         movie = Movie.objects.get(id = pk)
         if form.is_valid():
             form = form.save(commit=False)
