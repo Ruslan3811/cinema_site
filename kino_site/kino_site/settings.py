@@ -39,6 +39,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'modeltranslation',
+    'allauth.socialaccount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,6 +53,8 @@ INSTALLED_APPS = [
     'movie.apps.MovieConfig',
     'snowpenguin.django.recaptcha3',
     'contact',
+    'allauth',
+    'allauth.account',
 ]
 
 MIDDLEWARE = [
@@ -97,6 +100,10 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -216,8 +223,7 @@ CKEDITOR_CONFIGS = {
 
 SITE_ID = 1
 
-
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_FILE_PATH = str(BASE_DIR.joinpath("sent_emails"))
 
 EMAIL_HOST = "smtp.mail.ru"
@@ -235,5 +241,8 @@ LANGUAGES = (
     ('ru', gettext('Russia')),
     ('en', gettext('English'))
 )
-
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_USERNAME_MIN_LEGTH = 4
+LOGIN_REDIRECT_URL = "/"

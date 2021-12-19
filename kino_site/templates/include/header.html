@@ -32,8 +32,18 @@
 <!--                            <li><a href="moviesingle.html">Мультфильмы</a></li>-->
                         </ul>
                     </li>
-                    <li><a href="contact.html"
-                           style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вход</a></li>
+                    <li>
+                        {% if user.is_authenticated %}
+                            <span>{{ user.username }}</span>
+                            <a href="{% url 'account_logout' %}"
+                            style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Выход</a>
+                        {% else %}
+                            <a href="{% url 'account_login' %}"
+                            style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вход
+                            <a href="{% url 'account_signup' %}"
+                            style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Регистрация
+                        {% endif %}
+                    </li>
                      <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
                         <input name="next" type="hidden" value="{{ redirect_to }}">
                         <select name="language">
