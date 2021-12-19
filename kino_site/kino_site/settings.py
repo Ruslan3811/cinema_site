@@ -40,6 +40,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'modeltranslation',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.vk',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
