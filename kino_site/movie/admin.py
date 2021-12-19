@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Reviews, Rating, RatingStar, MovieShots, Movie, Genre, Actor, Category
-from django.utils.safestring import mark_safe
 from django import forms
+from django.utils.safestring import mark_safe
 
 # Register your models here.
 
