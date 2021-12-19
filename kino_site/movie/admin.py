@@ -2,13 +2,15 @@ from django.contrib import admin
 from .models import Reviews, Rating, RatingStar, MovieShots, Movie, Genre, Actor, Category
 from django.utils.safestring import mark_safe
 from django import forms
+from modeltranslation.admin import TranslationAdmin
 
 # Register your models here.
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 class MovieAdminForm(forms.ModelForm):
-    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+    description_ru = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+    description_en = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
     class Meta:
         model = Movie
         fields = '__all__'
@@ -25,7 +27,7 @@ class MovieShotsInline(admin.TabularInline):
     get_image.short_description = "Изображение"
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     list_display = ("id", "name", "url")
     list_display_links = ("name",)
 
@@ -35,7 +37,7 @@ class ReviewInline(admin.TabularInline):
     extra = 1
 
 @admin.register(Movie)
-class MovieAdmin(admin.ModelAdmin):
+class MovieAdmin(TranslationAdmin):
     list_display = ("title", "category", "url", "draft")
     list_filter = ("category", "year")
     search_fields = ("title", "category__name")
@@ -104,11 +106,11 @@ class ReviewAdmin(admin.ModelAdmin):
     readonly_fields = ("name", "email")
 
 @admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
+class GenreAdmin(TranslationAdmin):
     list_display = ("name", "url")
 
 @admin.register(MovieShots)
-class MovieShotsAdmin(admin.ModelAdmin):
+class MovieShotsAdmin(TranslationAdmin):
     list_display = ("title", "movie", "get_image")
     readonly_fields = ("get_image",)
 
@@ -123,7 +125,7 @@ class RatingAdmin(admin.ModelAdmin):
 
 
 @admin.register(Actor)
-class ActorAdmin(admin.ModelAdmin):
+class ActorAdmin(TranslationAdmin):
     list_display = ("name", "age", "get_image")
     readonly_fields = ("get_image",)
     def get_image(self, obj):
