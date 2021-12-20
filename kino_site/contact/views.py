@@ -12,6 +12,7 @@ class ContactView(CreateView):
     model = Contact
     form_class = ContactForm
     success_url = "/"
+    template_name = "templates/contact/form.html"
 
     def form_valid(self, form):
         form.save()
