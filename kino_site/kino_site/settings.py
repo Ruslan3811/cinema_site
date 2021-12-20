@@ -27,8 +27,7 @@ RECAPTCHA_SCORE_THRESHOLD = float(os.getenv("RECAPTCHA_SCORE_THRESHOLD"))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-f(h30&*it_3_0ucqd7q)orb-=nbf9@v9m@_3fwx01(bc=sry8v'
-
+SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -245,5 +244,5 @@ LANGUAGES = (
 LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale'),)
 
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
-ACCOUNT_USERNAME_MIN_LEGTH = 4
+ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_REDIRECT_URL = "/"
