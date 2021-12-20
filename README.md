@@ -29,3 +29,12 @@ It protects against spam
 
 # Added page /about/ using flatpage
 Flatpages allows to create static pages, save info in database and manage it using admin panel
+
+# Added forms:
+## 1) Review form
+## 2) Comment form
+## 3) Mailing form
+
+# Added sign in, sign out, registration
+
+# Added sign in using social app vk
